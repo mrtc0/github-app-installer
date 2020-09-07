@@ -57,6 +57,11 @@ var (
 		Value: 10,
 	}
 
+	mergePullRequestDryRunFlag = cli.BoolFlag{
+		Name: "dry-run",
+		Value: false,
+	}
+
 	listFlags = []cli.Flag{
 		&githubBaseUrlFlag,
 		&githubUploadUrlFlag,
@@ -78,6 +83,7 @@ var (
 		&mergePullRequestBranchNameFlag,
 		&mergePullRequestTitleFlag,
 		&mergePullRequestFetchLimitFlag,
+		&mergePullRequestDryRunFlag,
 	}
 )
 

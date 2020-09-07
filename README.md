@@ -8,6 +8,9 @@ $ export GHE_BASE_URL=https://git.example.com/
 
 $ github-app-installer list user
 $ github-app-installer install --installation-id <id> user/repo
+
+# Dry-Run
+$ github-app-installer auto-merge --dry-run --branch-name 'renovate/configure' --title 'Configure Renovate' --retry-count 10 user/repo
 $ github-app-installer auto-merge --branch-name 'renovate/configure' --title 'Configure Renovate' --retry-count 10 user/repo
 ```
 

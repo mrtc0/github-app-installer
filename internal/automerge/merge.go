@@ -39,8 +39,9 @@ func RunMerge(c *cli.Context) error {
 
 	title := c.String("title")
 	branch := c.String("branch-name")
-
+	dryRun := c.Bool("dry-run")
 	limit := c.Int("retry-count")
+
 	for i := 0; i < limit; i++ {
 		pull, err := gheClient.SearchMergePullRequest(ctx, organization, repository_name, title, branch)
 		if err != nil {
@@ -52,17 +53,22 @@ func RunMerge(c *cli.Context) error {
 			return err
 		}
 
-		result, _, err := gheClient.Client.PullRequests.Merge(ctx, organization, repository_name, *pull.Number, "auto merge by github-app-installer", nil)
-		if err != nil {
-			return err
-		}
-
-		if *result.Merged {
-			fmt.Printf("The pull request with %d was merged in %s.\n", *pull.Number, repository)
+		if dryRun {
+			fmt.Printf("The pull request with %d will merge in %s\n", *pull.Number, repository)
 			break
 		} else {
-			fmt.Printf("The pull request with %d was merge failed in %s.\n", *pull.Number, repository)
-			break
+			result, _, err := gheClient.Client.PullRequests.Merge(ctx, organization, repository_name, *pull.Number, "auto merge by github-app-installer", nil)
+			if err != nil {
+				return err
+			}
+
+			if *result.Merged {
+				fmt.Printf("The pull request with %d was merged in %s.\n", *pull.Number, repository)
+				break
+			} else {
+				fmt.Printf("The pull request with %d was merge failed in %s.\n", *pull.Number, repository)
+				break
+			}
 		}
 	}
 
