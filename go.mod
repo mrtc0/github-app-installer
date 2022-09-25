@@ -1,6 +1,6 @@
 module github.com/mrtc0/github-app-installer
 
-go 1.14
+go 1.19
 
 require (
 	github.com/bradleyfalzon/ghinstallation v1.1.1
